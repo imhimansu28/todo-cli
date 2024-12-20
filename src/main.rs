@@ -42,6 +42,10 @@ fn choose_action(todo: &mut Todo) {
         Action::MarkTaskAsCompleted,
         Action::Exit,
     ];
+    if action_array.len() != action_map.len() {
+        println!("Error: action_array and action_map lengths do not match");
+        return;
+    }
     print_header("Choose an action");
     for action in action_array {
         println!("{}", action);
@@ -49,9 +53,9 @@ fn choose_action(todo: &mut Todo) {
 
     loop {
         let input = get_input("Enter your choice: ");
-        let input: u32 = match input.trim().parse() {
-            Ok(num) => num,
-            Err(_) => {
+        let input: usize = match input.trim().parse() {
+            Ok(num) if num >= 1 && num <= action_map.len() => num,
+            _ => {
                 print_header("Choose a valid action");
                 for action in action_array {
                     println!("{}", action);
@@ -60,7 +64,7 @@ fn choose_action(todo: &mut Todo) {
             }
         };
 
-        match action_map[input as usize - 1] {
+        match action_map[input - 1] {
             Action::AddTask => {
                 print_header("Add Task");
                 let name = get_input("Enter task name: ");
