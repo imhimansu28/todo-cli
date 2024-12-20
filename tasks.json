@@ -1,0 +1,26 @@
+[
+  {
+    "id": 1,
+    "title": "Rust Programming",
+    "description": "Learn Rust Programming",
+    "completed": false
+  },
+  {
+    "id": 2,
+    "title": "Learn Python",
+    "description": "Learn Python from macbook",
+    "completed": false
+  },
+  {
+    "id": 3,
+    "title": "Learn C++",
+    "description": "Learn C++ from macbook",
+    "completed": false
+  },
+  {
+    "id": 4,
+    "title": "Buid todo app in rust",
+    "description": "Buid todo app in rust",
+    "completed": true
+  }
+]

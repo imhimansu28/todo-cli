@@ -15,13 +15,13 @@ This is a command-line interface (CLI) application for managing todo tasks, writ
 1. Clone the repository:
 
    ```
-   git clone https://github.com/your-username/rust-todo-cli.git
+   git clone https://github.com/imhimansu28/todo-cli.git
    ```
 
 2. Navigate to the project directory:
 
    ```
-   cd rust-todo-cli
+   cd todo-cli
    ```
 
 3. Build the project:
@@ -33,7 +33,7 @@ This is a command-line interface (CLI) application for managing todo tasks, writ
 4. Run the application:
 
    ```
-   ./target/release/rust-todo-cli
+   ./target/release/todocli
    ```
 
 5. Follow the on-screen prompts to interact with the todo application.
