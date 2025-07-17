@@ -4,7 +4,7 @@ use std::io::{BufReader, BufWriter, Error, ErrorKind};
 
 #[derive(Debug, Serialize, Deserialize)]
 pub struct Task {
-    id: u32,
+    pub id: u32,
     title: String,
     description: String,
     completed: bool,
@@ -21,7 +21,8 @@ impl Task {
     }
 
     pub fn print(&self) {
-        println!("{} - {} - {}", self.id, self.title, self.description);
+        let status = if self.completed { "✓" } else { "○" };
+        println!("{} {} - {} - {}", status, self.id, self.title, self.description);
     }
 
     pub fn update(&mut self, title: String, description: String) {
@@ -35,7 +36,7 @@ impl Task {
 }
 
 pub struct Todo {
-    tasks: Vec<Task>,
+    pub tasks: Vec<Task>,
     next_id: u32,
 }
 
@@ -80,16 +81,30 @@ impl Todo {
         }
     }
 
-    pub fn delete_task(&mut self, id: u32) {
-        if let Some(index) = self.tasks.iter().position(|t| t.id == id && t.completed) {
-            self.tasks.remove(index);
-            self.save_tasks().expect("Failed to save tasks");
+    pub fn delete_task(&mut self, id: u32) -> bool {
+        if let Some(index) = self.tasks.iter().position(|t| t.id == id) {
+            let task = &self.tasks[index];
+            if task.completed {
+                self.tasks.remove(index);
+                self.save_tasks().expect("Failed to save tasks");
+                true
+            } else {
+                false // Task exists but is not completed
+            }
         } else {
-            println!("Task not found or not completed");
+            false // Task not found
         }
     }
 
-    pub fn is_completed(&mut self, id: u32) -> bool {
+    pub fn is_completed(&self, id: u32) -> bool {
+        if let Some(task) = self.tasks.iter().find(|t| t.id == id) {
+            task.completed
+        } else {
+            false
+        }
+    }
+
+    pub fn mark_task_completed(&mut self, id: u32) -> bool {
         if let Some(task) = self.tasks.iter_mut().find(|t| t.id == id) {
             task.set_completed();
             self.save_tasks().expect("Failed to save tasks");
