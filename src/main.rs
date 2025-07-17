@@ -92,7 +92,17 @@ fn choose_action(todo: &mut Todo) {
                 let id: u32 = get_input("Enter task id: ")
                     .parse()
                     .expect("Please enter a valid number");
-                todo.delete_task(id);
+                
+                if todo.delete_task(id) {
+                    println!("Task deleted successfully!");
+                } else {
+                    // Check if task exists but is not completed
+                    if todo.tasks.iter().any(|t| t.id == id) {
+                        println!("Task found but not completed. Only completed tasks can be deleted.");
+                    } else {
+                        println!("Task not found!");
+                    }
+                }
                 print_header("Delete Task Close");
             }
             Action::MarkTaskAsCompleted => {
@@ -100,8 +110,14 @@ fn choose_action(todo: &mut Todo) {
                 let id: u32 = get_input("Enter task id: ")
                     .parse()
                     .expect("Please enter a valid number");
-                let is_completed = todo.is_completed(id);
-                println!("Task is completed: {}", is_completed);
+                
+                if todo.is_completed(id) {
+                    println!("Task is already completed!");
+                } else if todo.mark_task_completed(id) {
+                    println!("Task marked as completed successfully!");
+                } else {
+                    println!("Task not found!");
+                }
                 print_header("Mark Task as Completed Close");
             }
             Action::Exit => break,
